@@ -1,0 +1,19 @@
+#!/bin/bash
+
+IMAGE="yourdockerhubusername/spring_app_sak:latest"
+CONTAINER="spring_app_container"
+
+echo "Stopping old container..."
+docker stop $CONTAINER 2>/dev/null || true
+docker rm $CONTAINER 2>/dev/null || true
+
+echo "Removing old image..."
+docker rmi $IMAGE 2>/dev/null || true
+
+echo "Pulling latest image..."
+docker pull $IMAGE
+
+echo "Running new container..."
+docker run -d -p 8080:8080 --name $CONTAINER $IMAGE
+
+echo "Deployment completed successfully ✅"
